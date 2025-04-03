@@ -1,0 +1,510 @@
+<style>
+    /* General Page Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f7f9;
+        color: #333;
+    }
+ 
+    .container {
+        display: flex;
+        height: 100vh;
+    }
+ 
+   
+    .sidebar {
+        width: 250px;
+        padding: 15px;
+        background-color: #1d3557; 
+        border-right: 2px solid #457b9d;
+        height: 100vh;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        color: white;
+    }
+ 
+    .sidebar h3 {
+        margin-top: 0;
+        font-size: 20px;
+        color: #f1faee;
+        text-align: center;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #a8dadc;
+    }
+ 
+    .channel-list {
+        margin-top: 15px;
+    }
+ 
+    .channel-list a {
+        display: block;
+        padding: 8px 12px;
+        text-decoration: none;
+        color: #f1faee;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+ 
+    .channel-list a:hover {
+        background-color: #e63946; 
+        color: white;
+    }
+ 
+    /* Main Content Styling */
+    .content {
+        flex-grow: 1;
+        padding: 20px;
+        background-color: #ffffff;
+        overflow-y: auto;
+    }
+ 
+    .content h3 {
+        font-size: 22px;
+        color: #1d3557;
+        border-bottom: 2px solid #a8dadc;
+        padding-bottom: 8px;
+        margin-bottom: 20px;
+    }
+ 
+    /* Post Styling */
+    .post {
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-left: 5px solid #457b9d;
+        transition: 0.3s ease-in-out;
+        cursor: pointer;
+    }
+ 
+    .post:hover {
+        background-color: #f8f9fa;
+        border-left-color: #e63946;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+ 
+    .post h4 {
+        margin: 0;
+        font-size: 18px;
+        color: #1d3557;
+    }
+ 
+    .post p {
+        font-size: 14px;
+        color: #555;
+        margin-top: 5px;
+    }
+ 
+    .post small {
+        display: block;
+        font-size: 12px;
+        color: #888;
+        margin-top: 8px;
+    }
+ 
+    /* Poll Styling */
+    .poll-options {
+        margin-top: 10px;
+        padding: 10px;
+        background: #f1f1f1;
+        border-radius: 5px;
+    }
+ 
+    .poll-options label {
+        margin-right: 15px;
+        font-weight: 500;
+    }
+ 
+    .poll-options input[type="radio"] {
+        margin-right: 5px;
+    }
+ 
+    /* Updated Vote Button Styling */
+    .poll-options button {
+        padding: 8px 15px;
+        border: none;
+        background: #1d3557;
+        color: white;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+ 
+    .poll-options button:hover {
+        background: #e63946; 
+        transform: scale(1.05);
+    }
+ 
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+        }
+ 
+        .sidebar {
+            width: 100%;
+            height: auto;
+            border-right: none;
+            border-bottom: 2px solid #457b9d;
+        }
+ 
+        .channel-list a {
+            text-align: center;
+            display: block;
+        }
+ 
+        .content {
+            padding: 15px;
+        }
+        .content h3 {
+            font-size: 22px;
+            color: #1d3557;
+            border-bottom: 2px solid #a8dadc;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            background: white; 
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 10px;
+        }
+ 
+    }
+    .content-wrapper {
+    min-height: calc(100vh - 100px); 
+    position: relative;
+    padding-bottom: 60px; 
+}
+ 
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 1px; 
+    left: 283px;
+    width: calc(100% - 250px); 
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+ 
+.page-btn {
+    margin: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    border: 1px solid #1d3557;
+    border-radius: 5px;
+    background: #ffffff;
+    color: #1d3557;
+    transition: 0.3s;
+}
+ 
+.page-btn:hover {
+    background: #1d3557;
+    color: #ffffff;
+}
+ 
+.page-btn:disabled {
+    background: #ddd;
+    color: #666;
+    cursor: not-allowed;
+}
+ 
+    footer {
+        position: fixed;
+        bottom: 10px; 
+        width: 100%;
+        background-color: #f8f9fa; 
+        padding: 10px 0;
+        text-align: center;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    }
+ 
+</style>
+ 
+<head>
+    <meta name="csrf-token" content="{{ frappe.session.csrf_token }}">
+</head>
+ 
+<div class="container">
+    <input type="hidden" name="csrf_token" value="{{ frappe.session.csrf_token }}">
+ 
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>Discussion Channels</h3>
+        <div class="channel-list">
+            {% for c in channels %}
+                <a href="/discussion-channels/channel?name={{ c.name }}">{{ c.channel_name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+<!-- Store all post names in a hidden div -->
+<div id="post-names" data-posts="{% for post in posts %}{{ post.name }}{% if not loop.last %},{% endif %}{% endfor %}"></div>
+ 
+    <!-- Main Content -->
+    <div class="content">
+        <h3>Posts</h3>
+        {% if posts %}
+            {% for post in posts %}
+                <div class="post">
+                    <h4>{{ post.title }}</h4>
+                    <p>{{ post.content }}</p>
+                    
+                    <!-- Show Yes/No poll options if post is a poll -->
+                    {% if post.is_poll %}
+                        <div class="poll-options">
+                            <label>
+                                <input type="radio" id="yes_{{ post.name }}" name="poll_{{ post.name }}" value="YES"> Yes -
+                            </label>
+                            <span id="yes_count_{{ post.name|replace(' ', '_')|replace('-', '')|replace("'", '') }}">0</span><br><br>
+ 
+                            <label>
+                                <input type="radio" id="no_{{ post.name }}" name="poll_{{ post.name }}" value="NO"> No -
+                            </label>
+                            <span id="no_count_{{ post.name|replace(' ', '_')|replace('-', '')|replace("'", '') }}">0</span>
+ 
+                            <br><br><button onclick="submitPoll('{{ post.name | replace("'", "\\'") | replace('"', '&quot;') }}')">Vote</button>
+                        </div>
+                    {% endif %}
+ 
+                        
+                    
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No posts available in this channel.</p>
+        {% endif %}
+    </div>
+    <!-- Pagination Controls -->
+  
+    
+</div>
+<div id="pagination" class="pagination-container">
+    <!-- Pagination buttons will be dynamically generated here -->
+</div>
+ 
+ 
+ 
+<script>
+    console.log("Discussion channel page loaded.");
+ 
+    document.addEventListener("DOMContentLoaded", function() {
+    let postsPerPage = 2;  // Number of posts per page
+    let currentPage = localStorage.getItem("currentPage") ? parseInt(localStorage.getItem("currentPage")) : 1; // Get last page from localStorage
+
+    let postContainer = document.querySelector(".content");
+    let postsData = Array.from(document.querySelectorAll(".post"));  // Get all posts
+    let paginationContainer = document.getElementById("pagination");
+
+    function displayPosts(page) {
+        postContainer.innerHTML = "<h3>Posts</h3>"; // Clear previous posts
+        let totalPosts = postsData.length;
+
+        // ✅ If postsPerPage is greater than or equal to total posts, show all posts on page 1
+        if (postsPerPage >= totalPosts) {
+            postsData.forEach(post => postContainer.appendChild(post)); 
+            paginationContainer.innerHTML = ""; // Hide pagination buttons
+            return;  // Stop further execution
+        }
+
+        let start = (page - 1) * postsPerPage;
+        let end = start + postsPerPage;
+        let paginatedPosts = postsData.slice(start, end); // Get posts for the selected page
+
+        if (paginatedPosts.length === 0) {
+            postContainer.innerHTML += "<p>No posts available.</p>";
+        } else {
+            paginatedPosts.forEach(post => postContainer.appendChild(post)); // Append filtered posts
+        }
+
+        localStorage.setItem("currentPage", page); // Store selected page in localStorage
+        createPaginationButtons();
+    }
+
+
+    function createPaginationButtons() {
+        let totalPages = Math.ceil(postsData.length / postsPerPage);
+        paginationContainer.innerHTML = ""; // Clear previous buttons
+
+        if (totalPages > 1) {
+            let prevButton = document.createElement("button");
+            prevButton.innerText = "Previous";
+            prevButton.className = "page-btn";
+            prevButton.disabled = currentPage === 1;
+            prevButton.onclick = function() {
+                if (currentPage > 1) {
+                    localStorage.setItem("currentPage", currentPage - 1);
+                    location.reload(); // Reload the page
+                }
+            };
+            paginationContainer.appendChild(prevButton);
+
+            for (let i = 1; i <= totalPages; i++) {
+                let btn = document.createElement("button");
+                btn.innerText = i;
+                btn.className = "page-btn";
+                btn.style.margin = "5px";
+                btn.style.padding = "8px 12px";
+                btn.style.cursor = "pointer";
+                btn.style.border = "1px solid #1d3557";
+                btn.style.borderRadius = "5px";
+                btn.style.background = i === currentPage ? "#1d3557" : "#ffffff";
+                btn.style.color = i === currentPage ? "#ffffff" : "#1d3557";
+                
+                btn.onclick = function() {
+                    localStorage.setItem("currentPage", i);
+                    location.reload(); // Reload the page when clicked
+                };
+
+                paginationContainer.appendChild(btn);
+            }
+
+            let nextButton = document.createElement("button");
+            nextButton.innerText = "Next";
+            nextButton.className = "page-btn";
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.onclick = function() {
+                if (currentPage < totalPages) {
+                    localStorage.setItem("currentPage", currentPage + 1);
+                    location.reload(); // Reload the page
+                }
+            };
+            paginationContainer.appendChild(nextButton);
+        }
+    }
+
+    displayPosts(currentPage);
+});
+
+ 
+function sanitizePostName(postName) {
+    return postName.replace(/\s+/g, "_").replace(/[-']/g, "");
+}
+function getCSRFToken() {
+    let csrfMeta = document.querySelector('meta[name="csrf-token"]');
+    if (csrfMeta) {
+        return csrfMeta.content;
+    }
+    return "";
+}
+ 
+function submitPoll(postName) {
+    let sanitizedPostName = sanitizePostName(postName);
+ 
+    let csrfToken = getCSRFToken();
+    console.log("CSRF Token:", csrfToken);
+    console.log("Submitting poll for post:", postName);
+ 
+    // Get selected radio button for the correct post
+    let selectedOption = document.querySelector(`input[name="poll_${postName}"]:checked`);
+    console.log("Selected Option:", selectedOption);
+    if (!selectedOption) {
+        console.warn("No option selected!");
+        alert("Please select an option before voting.");
+        return;
+    }
+ 
+    let vote = selectedOption.value;  
+    console.log("Selected Vote:", vote);
+ 
+    if (!csrfToken) {
+        alert("CSRF token not found! Login again or refresh the page.");
+        return;
+    }
+ 
+    fetch('/api/method/sarvadhi_custom.api.submit_voting', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-Frappe-CSRF-Token": csrfToken  
+        },
+        body: `post_name=${postName}&vote=${vote}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Full API Response:", data);
+ 
+        if (data.success) {
+            document.getElementById(`yes_count_${sanitizedPostName}`).innerText = data.yes_count;
+            document.getElementById(`no_count_${sanitizedPostName}`).innerText = data.no_count;
+            alert(`You voted: ${vote}`);
+        } else {
+            alert("Successfully submit vote.");
+        }
+    })
+    .catch(error => {
+        console.error("Error submitting vote:", error);
+        alert("Failed to submit vote. Please try again.");
+    });
+}
+ 
+ 
+
+
+
+
+
+ 
+function fetchVoteCounts(postName) {
+    let sanitizedPostName = sanitizePostName(postName);
+    console.log("Sanitized Post Name:", sanitizedPostName);
+    console.log("Fetching vote counts for post:", postName);
+    
+    fetch(`/api/method/sarvadhi_custom.api.get_vote_counts?post_name=${postName}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log("API Response:", data);
+ 
+        if (!data.message) {
+            console.error("Invalid response format:", data);
+            return;
+        }
+ 
+        let yesCount = data.message.yes_count ?? "0";  
+        let noCount = data.message.no_count ?? "0";    
+        console.log("Vote Counts:", yesCount, noCount);
+        // Dynamically update only the relevant post
+        let yesCountElem = document.querySelector(`#yes_count_${sanitizedPostName}`);
+        let noCountElem = document.querySelector(`#no_count_${sanitizedPostName}`);
+        console.log("Yes Count Element:", yesCountElem);
+        console.log("No Count Element:", noCountElem);
+ 
+        if (yesCountElem) {
+            yesCountElem.innerText = yesCount;
+        } else {
+            console.error(`Element not found: #yes_count_${sanitizedPostName}`);
+        }
+ 
+        if (noCountElem) {
+            noCountElem.innerText = noCount;
+        } else {
+            console.error(`Element not found: #no_count_${sanitizedPostName}`);
+        }
+    })
+    .catch(error => console.error("Error fetching vote counts:", error));
+}
+ 
+ 
+
+ 
+let postNamesDiv = document.getElementById("post-names");
+if (postNamesDiv) {
+    let postNames = postNamesDiv.getAttribute("data-posts").split(",");
+    postNames.forEach(postName => {
+        fetchVoteCounts(postName.trim());
+    });
+}
+ 
+ 
+</script>
+ 
+ 
+ 
