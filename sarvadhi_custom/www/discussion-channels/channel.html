@@ -236,16 +236,14 @@
  
 <div class="container">
     <input type="hidden" name="csrf_token" value="{{ frappe.session.csrf_token }}">
- 
-    <!-- Sidebar -->
     <div class="sidebar">
         <h3>Discussion Channels</h3>
-        <div class="channel-list">
-            {% for c in channels %}
-                <a href="/discussion-channels/channel?name={{ c.name }}">{{ c.channel_name }}</a>
-            {% endfor %}
+        <div class="channel-list" id="channel-list">
+            <!-- Channels will be loaded dynamically -->
         </div>
     </div>
+    
+
 <!-- Store all post names in a hidden div -->
 <div id="post-names" data-posts="{% for post in posts %}{{ post.name }}{% if not loop.last %},{% endif %}{% endfor %}"></div>
  
@@ -257,6 +255,8 @@
                 <div class="post">
                     <h4>{{ post.title }}</h4>
                     <p>{{ post.content }}</p>
+                    <p>This post was created by <span style="display: inline;">{{ post.created_by }}</span> on <span style="display: inline;">{{ post.creation }}</span></p>
+
                     
                     <!-- Show Yes/No poll options if post is a poll -->
                     {% if post.is_poll %}
@@ -296,6 +296,34 @@
 <script>
     console.log("Discussion channel page loaded.");
  
+    
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("http://erpnext.localhost:8004/api/method/sarvadhi_custom.www.discussion-channels.channel.get_user_channels")
+        .then(response => response.json())
+        .then(data => {
+            let channels = data.message; // API response me 'message' me data hota hai
+            console.log("Channels:", channels); // Debugging ke liye console me check karo
+    
+            let channelList = document.getElementById("channel-list");
+            channelList.innerHTML = ""; // Pehle ke channels hatao
+    
+            channels.forEach(channel => {
+                let a = document.createElement("a");
+                a.href = "/discussion-channels/channel?name=" + channel.name;
+                a.textContent = channel.name;
+                a.classList.add("channel-link");
+                channelList.appendChild(a);
+            });
+        })
+        .catch(error => console.error("Error loading channels:", error));
+    });
+
+
+
+
+
     document.addEventListener("DOMContentLoaded", function() {
     let postsPerPage = 2;  // Number of posts per page
     let currentPage = localStorage.getItem("currentPage") ? parseInt(localStorage.getItem("currentPage")) : 1; // Get last page from localStorage

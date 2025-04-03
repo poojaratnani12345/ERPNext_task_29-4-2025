@@ -23,14 +23,14 @@
   },
   {
    "fieldname": "members",
-   "fieldtype": "Link",
+   "fieldtype": "Table",
    "label": "Members",
-   "options": "User"
+   "options": "Members"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-03 12:23:21.032612",
+ "modified": "2025-04-03 12:50:20.951214",
  "modified_by": "Administrator",
  "module": "sarvadhi_custom",
  "name": "Discussion Channel",

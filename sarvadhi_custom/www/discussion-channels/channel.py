@@ -21,25 +21,27 @@ def get_context(context):
 
 
 
-@frappe.whitelist(allow_guest=True)
-def submit_vote():
-    poll_id = frappe.form_dict.get("poll_id")
-    vote = frappe.form_dict.get("vote")
-
-    if not poll_id or not vote:
-        return {"status": "error", "message": "Invalid vote submission"}
-
-    poll = frappe.get_doc("Discussion Post", poll_id)
-    
-    # Find the selected option and update vote count
-    for option in poll.poll_options:
-        if option.option_text == vote:
-            option.vote_count += 1
-    
-    # Increase total votes count
-    poll.total_votes += 1
-    poll.save()
-
-    return {"status": "success", "message": "Vote recorded successfully!"}
 
 
+
+@frappe.whitelist()
+def get_user_channels():
+    user = frappe.session.user  
+
+    user_channels = frappe.get_all(
+        "Members",
+        filters={"user": user},
+        pluck="parent"
+    )
+
+    if not user_channels:
+        return []
+
+    # Fetch channel details
+    channels = frappe.get_all(
+        "Discussion Channel",
+        filters={"name": ["in", user_channels]},
+        fields=["name"]
+    )
+
+    return channels
