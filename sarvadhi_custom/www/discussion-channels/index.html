@@ -73,11 +73,10 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h3>Discussion Channels</h3>
-        <div class="channel-list">
-            {% for channel in channels %}
-                <a href="/discussion-channels/channel?name={{ channel.name }}">{{ channel.channel_name }}</a>
-            {% endfor %}
+        <div class="channel-list" id="channel-list">
+            <!-- Channels will be loaded dynamically -->
         </div>
+        
     </div>
 
     <!-- Main Content -->
@@ -86,3 +85,25 @@
         <p>Select a channel from the sidebar to view posts.</p>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("http://erpnext.localhost:8004/api/method/sarvadhi_custom.www.discussion-channels.channel.get_user_channels")
+        .then(response => response.json())
+        .then(data => {
+            let channels = data.message; // API response me 'message' me data hota hai
+            console.log("Channels:", channels); // Debugging ke liye console me check karo
+    
+            let channelList = document.getElementById("channel-list");
+            channelList.innerHTML = ""; // Pehle ke channels hatao
+    
+            channels.forEach(channel => {
+                let a = document.createElement("a");
+                a.href = "/discussion-channels/channel?name=" + channel.name;
+                a.textContent = channel.name;
+                a.classList.add("channel-link");
+                channelList.appendChild(a);
+            });
+        })
+        .catch(error => console.error("Error loading channels:", error));
+    });
+    </script>
