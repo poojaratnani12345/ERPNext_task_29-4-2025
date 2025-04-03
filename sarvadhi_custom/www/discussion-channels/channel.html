@@ -300,7 +300,7 @@
 
 
     document.addEventListener("DOMContentLoaded", function () {
-        fetch("http://erpnext.localhost:8004/api/method/sarvadhi_custom.www.discussion-channels.channel.get_user_channels")
+        fetch("/api/method/sarvadhi_custom.www.discussion-channels.channel.get_user_channels")
         .then(response => response.json())
         .then(data => {
             let channels = data.message; // API response me 'message' me data hota hai
@@ -448,7 +448,7 @@ function submitPoll(postName) {
         return;
     }
  
-    fetch('/api/method/sarvadhi_custom.api.submit_voting', {
+    fetch('/api/method/sarvadhi_custom.api.channel_api.submit_voting', {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -486,7 +486,7 @@ function fetchVoteCounts(postName) {
     console.log("Sanitized Post Name:", sanitizedPostName);
     console.log("Fetching vote counts for post:", postName);
     
-    fetch(`/api/method/sarvadhi_custom.api.get_vote_counts?post_name=${postName}`)
+    fetch(`/api/method/sarvadhi_custom.api.channel_api.get_vote_counts?post_name=${postName}`)
     .then(response => response.json())
     .then(data => {
         console.log("API Response:", data);

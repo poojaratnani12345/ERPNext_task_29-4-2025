@@ -5,7 +5,14 @@ app_description = "custom"
 app_email = "sarvadhi@gmail.com"
 app_license = "mit"
 
+doc_events={
 
+
+    "Sarvadhi Announcements": {
+        "before_save": "sarvadhi_custom.api.reactions.set_created_by"
+    },
+
+}
 
 # Apps
 # ------------------
