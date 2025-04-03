@@ -87,7 +87,7 @@
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        fetch("http://erpnext.localhost:8004/api/method/sarvadhi_custom.www.discussion-channels.channel.get_user_channels")
+        fetch("/api/method/sarvadhi_custom.www.discussion-channels.channel.get_user_channels")
         .then(response => response.json())
         .then(data => {
             let channels = data.message; // API response me 'message' me data hota hai
