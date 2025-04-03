@@ -466,6 +466,7 @@ function submitPoll(postName) {
             alert(`You voted: ${vote}`);
         } else {
             alert("Successfully submit vote.");
+            location.reload()
         }
     })
     .catch(error => {
