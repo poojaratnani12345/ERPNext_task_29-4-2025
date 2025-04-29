@@ -28,7 +28,6 @@ def register_for_event():
     if not frappe.db.exists("Town Hall Event", event_name):
         frappe.throw(_("Event '{0}' does not exist").format(event_name))
 
-    # Optional: Split full_name into first and last name
     names = full_name.strip().split(" ", 1)
     first_name = names[0]
     last_name = names[1] if len(names) > 1 else ""
@@ -45,17 +44,13 @@ def register_for_event():
     }
 
     try:
-        # Insert registration
         reg_doc = frappe.get_doc(registration_data)
         reg_doc.insert(ignore_permissions=True)
 
-        # Commit changes
         frappe.db.commit()
 
-        # Fetch event details
         event_doc = frappe.get_doc("Town Hall Event", event_name)
 
-        # Attach event info to context
         context = {
             "doc": event_doc,
             "full_name": full_name,

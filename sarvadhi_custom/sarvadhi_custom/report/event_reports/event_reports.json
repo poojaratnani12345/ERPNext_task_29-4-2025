@@ -1,0 +1,28 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2025-04-29 13:35:49.622845",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "first letter",
+ "letterhead": null,
+ "modified": "2025-04-29 13:35:49.622845",
+ "modified_by": "Administrator",
+ "module": "sarvadhi_custom",
+ "name": "Event reports",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Town Hall Event Registration",
+ "report_name": "Event reports",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "timeout": 0
+}

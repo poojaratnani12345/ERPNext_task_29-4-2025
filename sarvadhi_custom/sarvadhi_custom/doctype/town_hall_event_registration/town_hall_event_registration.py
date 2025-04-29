@@ -6,7 +6,6 @@ class TownHallEventRegistration(Document):
     def validate(self):
         if self.first_name or self.last_name:
             self.full_name = f"{self.first_name or ''} {self.last_name or ''}".strip()
-
         self.check_max_participants()
 
     def check_max_participants(self):
