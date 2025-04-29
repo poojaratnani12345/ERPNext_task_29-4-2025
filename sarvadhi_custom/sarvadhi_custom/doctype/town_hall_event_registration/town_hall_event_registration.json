@@ -39,7 +39,7 @@
   },
   {
    "fieldname": "phone",
-   "fieldtype": "Phone",
+   "fieldtype": "Data",
    "label": "Phone"
   },
   {
@@ -60,7 +60,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-29 10:40:03.162678",
+ "modified": "2025-04-29 12:15:03.869836",
  "modified_by": "Administrator",
  "module": "sarvadhi_custom",
  "name": "Town Hall Event Registration",
