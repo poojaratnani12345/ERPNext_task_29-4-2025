@@ -1,9 +1,10 @@
 
 import frappe
 from frappe import _
+from frappe.email.doctype.email_account.email_account import datetime
 from frappe.utils import validate_email_address
 
-@frappe.whitelist(allow_guest=True)
+@frappe.whitelist()
 def register_for_event():
     """
     Whitelisted API to register for a Town Hall Event.
@@ -61,3 +62,32 @@ def register_for_event():
     except Exception as e:
         frappe.log_error(frappe.get_traceback(), _("Event Registration Failed"))
         frappe.throw(_("An error occurred during registration. Please try again."))
+
+
+
+
+
+@frappe.whitelist()
+def update_completed_events():
+    """
+    Finds all Town Hall Events whose end_datetime is in the past,
+    and updates their status to 'Completed' if not already done.
+    """
+    now = datetime.now()
+
+    events = frappe.get_all("Town Hall Event", filters={
+        "end_datetime": ("<", now),
+        "status": ("!=", "Completed")
+    }, fields=["name"])
+
+    for event in events:
+        try:
+            doc = frappe.get_doc("Town Hall Event", event.name)
+            doc.status = "Completed"
+            doc.save(ignore_permissions=True)
+            frappe.db.commit()
+            frappe.logger().info(f"Updated event {event.name} status to 'Completed'")
+        except Exception as e:
+            frappe.logger().error(f"Failed to update event {event.name}: {str(e)}")
+
+    frappe.db.commit()

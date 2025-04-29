@@ -22,7 +22,13 @@ doc_events={
 }
 
 
+# sarvadhi_custom/hooks.py
+
 scheduler_events = {
+    "hourly": [
+        "sarvadhi_custom.api.event_management.update_completed_events"
+    ]
+
     # "cron": {
     #     "0 18 * * *": [  # Runs daily at 6:00 PM
     #         "sarvadhi_custom.api.notification.notify_shift_end"
