@@ -23,21 +23,3 @@ function validateEmail(email) {
     return re.test(email);
 }
 
-
-frappe.ui.form.on("Town Hall Event Registration", {
-    refresh(frm) {
-        // Auto-prepend country code to phone number
-        frm.set_query("country", function () {
-            return { filters: [["Country"]] };
-        });
-    },
-    country(frm) {
-        if (frm.doc.phone && frm.doc.country) {
-            const countryInfo = frappe.get_region_info(frm.doc.country);
-            const countryCode = countryInfo ? countryInfo.code : "";
-            if (!frm.doc.phone.startsWith(`+${countryCode}`)) {
-                frm.set_value("phone", `+${countryCode}${frm.doc.phone}`);
-            }
-        }
-    }
-});
