@@ -4,7 +4,7 @@ from frappe import _
 from frappe.email.doctype.email_account.email_account import datetime
 from frappe.utils import validate_email_address
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def register_for_event():
     """
     Whitelisted API to register for a Town Hall Event.
@@ -45,25 +45,53 @@ def register_for_event():
     }
 
     try:
-        registration_doc = frappe.get_doc(registration_data)
-        registration_doc.insert(ignore_permissions=True)
+        # Insert registration
+        reg_doc = frappe.get_doc(registration_data)
+        reg_doc.insert(ignore_permissions=True)
 
+        # Commit changes
         frappe.db.commit()
+
+        # Fetch event details
+        event_doc = frappe.get_doc("Town Hall Event", event_name)
+
+        # Attach event info to context
+        context = {
+            "doc": event_doc,
+            "full_name": full_name,
+            "event_name": event_name,
+            "start_datetime": event_doc.start_datetime,
+            "end_datetime": event_doc.end_datetime,
+        }
+
+        # Compose subject and message directly
+        subject = f"Thank You for Registering for {context['event_name']}"
+        message = f"""
+        <p>Hello {context['full_name']},</p>
+        <p>Thank you for registering for the event <strong>{context['event_name']}</strong>.</p>
+        <p><strong>Date & Time:</strong> {context['start_datetime']} - {context['end_datetime']}</p>
+        <p>We look forward to seeing you there!</p>
+        """
+
+        # Send the email
+        frappe.sendmail(
+            recipients=[email],
+            subject=subject,
+            message=message,
+            reference_doctype="Town Hall Event Registration",
+            reference_name=reg_doc.name
+        )
 
         return {
             "message": _("Registration successful"),
-            "registration_id": registration_doc.name,
+            "registration_id": reg_doc.name,
             "full_name": full_name,
-            "event": event_name,
-            "phone": phone,
-            "email": email
+            "event": event_name
         }
 
     except Exception as e:
         frappe.log_error(frappe.get_traceback(), _("Event Registration Failed"))
         frappe.throw(_("An error occurred during registration. Please try again."))
-
-
 
 
 
