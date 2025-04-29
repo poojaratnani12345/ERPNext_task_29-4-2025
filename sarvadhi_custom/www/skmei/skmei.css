@@ -1,0 +1,344 @@
+/* Main Styles for Support Form */
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+/* Loading Overlay */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+footer {
+    background: linear-gradient(135deg,#8294a5, #1c2f41, #8294a5);
+    color: #fff;
+    text-align: center;
+    padding: 15px ; /* Reduced padding for smaller screens */
+    font-size: 15px; /* Reduced font size for smaller screens */
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.5);
+    
+}
+
+footer a {
+    color: #e9ebed;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+    color: #afb5c2;
+}
+
+
+
+
+
+
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar Styles */
+.navbar {
+    padding: 15px 0;
+}
+
+.navbar-brand img {
+    max-height: 40px;
+}
+
+/* Support Banner */
+.support-banner {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    padding: 20px 0;
+    margin-bottom: 30px;
+    border-bottom: none;
+    color: white; /* Ensure text is readable */
+}
+
+.support-banner h1 {
+    color: white;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+/* Form Sections */
+.section-title {
+    border-bottom: 2px solid #f0f0f0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.section-title h4 {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Form Elements */
+.form-group label {
+    font-weight: 500;
+    color: #444;
+}
+.form-control {
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-control:focus { 
+    border-color: #193858;
+    box-shadow: 0 0 8px rgba(255, 111, 97, 0.5);
+    outline: none;
+}
+
+.form-control.is-invalid {
+    border-color: #193858;
+    background-image: none;
+}
+
+.form-control-file {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.form-control-file:hover {
+    border-color: #193858;
+    background-color: #f9f9f9;
+}
+
+.custom-control-label {
+    font-weight: normal;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #808589, #193858,#b9c9d3);
+    border: none;
+    padding: 12px 30px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #b9c9d3, #193858,#808589);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.section-title h4 {
+    position: relative;
+    color: #333;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.section-title h4::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0;
+    height: 2px;
+    background: #193858;
+    transition: width 0.3s ease-in-out;
+}
+
+.section-title h4:hover::after {
+    width: 100%;
+}
+
+/* File Previews */
+.image-preview-container,
+.receipt-preview-container,
+.video-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.image-preview,
+.receipt-preview,
+.video-preview {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.image-preview img,
+.receipt-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pdf-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    padding: 15px;
+}
+
+.video-preview {
+    width: 200px;
+    height: auto;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(220, 53, 69, 0.8);
+    border: none;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 1;
+}
+/* Style for the reCAPTCHA container */
+#recaptcha-container {
+    color: #193858;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 30px;
+    padding: 10px 15px;
+    border: 2px solid #193858;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+#recaptcha-container:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Response Modal */
+#responseModal .modal-body {
+    padding: 30px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    footer {
+        font-size: 10px;
+        padding: 8px 0;
+    }
+    .support-banner {
+        padding: 30px 0;
+    }
+    
+    .card {
+        transform: scale(0.95);
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .card:hover {
+        transform: scale(1);
+
+    }
+    
+    .navbar-brand img {
+        max-height: 35px;
+    }
+    
+    .image-preview,
+    .receipt-preview {
+        width: 120px;
+        height: 120px;
+    }
+
+    #recaptcha-container {
+        margin-top: 10px; /* Add some spacing from the footer links */
+    }
+  
+    
+    .text-md-right {
+        text-align: center !important;
+    }
+}
+
+@media (max-width: 480) {
+    .support-banner h1 {
+        font-size: 1.5rem;
+    }
+    
+   /* Make the form container scrollable */
+.card-body {
+    flex: 1;
+    max-height: 600px; /* Set a maximum height for the form */
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #193858 #f9f9f9; /* For Firefox */
+
+
+
+}
+
+footer {
+    font-size: 8px;
+    padding: 6px 0;
+}
+/* For Webkit browsers (Chrome, Safari) */
+.card-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.card-body::-webkit-scrollbar-thumb {
+    background: #193858;
+    border-radius: 4px;
+}
+
+.card-body::-webkit-scrollbar-track {
+    background: #f9f9f9;
+}
+    
+    .btn-primary {
+        width: 100%;
+    }
+    
+    .image-preview,
+    .receipt-preview {
+        width: 100px;
+        height: 100px;
+    }
+}

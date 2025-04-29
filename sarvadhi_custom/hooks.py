@@ -1,3 +1,6 @@
+
+
+
 app_name = "sarvadhi_custom"
 app_title = "sarvadhi_custom"
 app_publisher = "sarvadhi"
@@ -5,15 +8,37 @@ app_description = "custom"
 app_email = "sarvadhi@gmail.com"
 app_license = "mit"
 
+
 doc_events={
-
-
-    "Sarvadhi Announcements": {
-        "before_save": "sarvadhi_custom.api.reactions.set_created_by"
-    },
-
+    # "Sarvadhi Announcements": {
+    #     "before_save": "sarvadhi_custom.api.discussion.set_created_by"
+    # },
+    # "sample": {
+    #     'before_save':'sarvadhi_custom.api.test.place'
+    # },
+    #  "Lead": {
+    #         "on_update": "sarvadhi_custom.api.lead_task.send_lead_status_notification",
+    #     }
 }
 
+
+scheduler_events = {
+    # "cron": {
+    #     "0 18 * * *": [  # Runs daily at 6:00 PM
+    #         "sarvadhi_custom.api.notification.notify_shift_end"
+    #     ],
+    #     "0 12 * * *":[
+    #         "sarvadhi_custom.api.support.send_reminder_to_support_team"
+    #     ]
+    # }
+}
+
+# # Registering the method as an API endpoint
+# override_whitelisted_methods = {
+#     "POST /api/method/sarvadhi_custom.api.placement_model.predict_placement": "sarvadhi_custom.api.placement_model.predict_placement"
+# }
+
+    
 # Apps
 # ------------------
 
@@ -52,7 +77,6 @@ doc_events={
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}

@@ -1,0 +1,341 @@
+{% set full_width=true%}
+
+{% extends "templates/web.html" %}
+
+{% block style %}
+<style>
+    /* Main Container */
+    #main-container {
+        height: 1000px;
+        max-height: calc(100vh - 150px);
+        overflow-y: auto;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 5px rgba(90, 77, 77, 0.5);
+        scroll-behavior: smooth;
+        position: relative;
+    }
+
+    /* Post List */
+    #post-list {
+        margin-bottom: 2rem;
+        width: 1200px;
+    }
+
+    #post-list .card {
+        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        overflow: hidden;
+    }
+
+    #post-list .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 10px rgba(228, 16, 16, 0.20);
+    }
+
+    #post-list .card-body {
+        padding: 1.5rem;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        background: linear-gradient(135deg, #bdbdbd, #34495e);
+        color: rgb(0, 0, 0);
+        border-right: 1px solid #34495e;
+        transition: background-color 0.3s ease;
+    }
+
+    .sidebar:hover {
+        background: linear-gradient(135deg, #34495e, #bdbdbd);
+    }
+
+    .sidebar h5 {
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    /* Navigation Items */
+    .nav-items {
+        display: block;
+        color: white;
+        text-decoration: none; /* Remove underline on hover */
+        padding: 0.75rem 1rem;
+        border-radius: 0.25rem;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        margin-bottom: 0.25rem;
+    }
+
+    .nav-items.active {
+        background-color: #7a8992;
+        font-weight: bold;
+    }
+
+    /* Attachments */
+    .attachments-container {
+        margin-top: 1rem;
+        border-top: 1px solid #dee2e6;
+        padding-top: 0.5rem;
+    }
+
+    .attachments-container strong {
+        font-size: 1rem;
+        color: #6c757d;
+    }
+
+    .attachment-wrapper {
+        margin: 5px;
+        padding: 5px;
+        display: inline-flex;
+        border: 1px solid #6c757D;
+        border-radius: 0.25rem;
+        background-color: #c3c9cd;
+    }
+
+    .attachments-container a:hover {
+        text-decoration: underline;
+    }
+
+    .attachments-container p:last-child {
+        font-style: italic;
+        color: #7a8992;
+    }
+
+    /* Dropdown Icon */
+    .caret-icon {
+        font-size: 30px;
+        transition: transform 0.3s ease;
+    }
+
+    .dropdown.show .caret-icon {
+        transform: rotate(180deg);
+    }
+
+    /* Pagination Controls */
+    #pagination-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+        position: sticky;
+        bottom: 10px;
+        background-color: white;
+        padding: 1rem 0;
+        border-top: 1px solid #dee2e6;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+        border-radius: 0.5rem;
+        z-index: 1000;
+    }
+
+    #pagination-controls .btn {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        border-radius: 0.3rem;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    #pagination-controls .btn.active {
+        background-color: #7a8992;
+        color: white;
+        pointer-events: none;
+    }
+
+    #pagination-controls .btn[disabled] {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    #pagination-controls .btn:first-child,
+    #pagination-controls .btn:last-child {
+        background-color: transparent;
+        color: #7a8992;
+        border: none;
+    }
+
+    #pagination-controls .btn:first-child:hover,
+    #pagination-controls .btn:last-child:hover {
+        background-color: #c8cbce;
+    }
+
+    /* Interactivity */
+    #discussion-channels-heading {
+        cursor: pointer;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .sidebar,
+        .main-content {
+            padding: 1rem;
+        }
+
+        .sidebar {
+            min-height: auto;
+        }
+    }
+
+    /* Small Rounded Image */
+    .user-image {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+</style>
+{% endblock %}
+
+
+
+{% block page_content %}
+<div class="flex flex-col md:flex-row h-screen bg-gray-50">
+  <!-- Sidebar -->
+  <aside class="w-full md:w-1/4 sidebar">
+    <h5 id="discussion-channels-heading" class="p-4 text-lg font-bold">Channels</h5>
+    <ul id="channel-list" class="space-y-2 px-4">
+      <!-- Channels will be dynamically populated here -->
+    </ul>
+  </aside>
+
+  <!-- Posts Section -->
+  <main class="w-full md:w-3/4 p-6 main-content">
+    <div id="main-container">
+      <div id="post-list"></div> <!-- Posts will be dynamically populated here -->
+
+      <!-- Pagination -->
+      <div id="pagination-controls" class="pagination">
+        <button class="btn" onclick="prevPage()"><</button>
+        <button class="btn active">1</button>
+        <button class="btn">2</button>
+        <button class="btn">3</button>
+        <button class="btn" onclick="nextPage()">></button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  let currentPage = 1;
+  let selectedChannel = null;
+  const postsPerPage = 3    ; // Display only 1 post per page
+
+  async function loadChannels() {
+    const res = await fetch('/api/method/sarvadhi_custom.api.discussion.fetch_channels');
+    const data = await res.json();
+    const list = document.getElementById("channel-list");
+    list.innerHTML = "";
+
+    if (data.message && Array.isArray(data.message)) {
+      data.message.forEach(channel => {
+        const li = document.createElement("li");
+        li.textContent = `${channel.channel_name}`;
+        li.className = "nav-items";
+        li.onclick = () => {
+          selectedChannel = channel.name;
+          document.getElementById("discussion-channels-heading").innerText = channel.channel_name;
+          currentPage = 1;
+          loadPosts();
+        };
+        list.appendChild(li);
+      });
+    }
+  }
+
+  async function loadPosts() {
+    const res = await fetch(`/api/method/sarvadhi_custom.api.discussion.get_announcements?channel=${selectedChannel}&page=${currentPage}&limit=${postsPerPage}`);
+    const data = await res.json();
+    const posts = data.message.message || [];
+    const total = data.message.total_count || 0;
+
+    const container = document.getElementById("post-list");
+    container.innerHTML = "";
+
+    posts.forEach(post => {
+      const postEl = document.createElement("div");
+      postEl.className = "card";
+ // Fetch attachments for the current post
+ async function fetchAttachments(postId) {
+        const res = await fetch(`/api/method/sarvadhi_custom.api.get_attachments?attached_to_name=${postId}`);
+        const data = await res.json();
+        return data.message || [];
+      }
+
+      // Render attachments
+      async function renderAttachments(postId) {
+        const attachments = await fetchAttachments(postId);
+        const attachmentList = document.createElement("ul");
+        attachmentList.className = "attachments-list";
+
+        if (attachments.length === 0) {
+          attachmentList.innerHTML = "<li>No attachments found.</li>";
+        } else {
+          attachments.forEach(attachment => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+              <a href="${attachment.file_url}" target="_blank">${attachment.name}</a>
+            `;
+            attachmentList.appendChild(li);
+          });
+        }
+
+        return attachmentList;
+      }
+
+      // Build the post HTML
+      postEl.innerHTML = `
+        <div class="card-body">
+          <div class="post-header flex items-center gap-4">
+            <img src="${post.user_image}" alt="User" class="user-image">
+            <div>
+              <h5 class="text-lg font-semibold">${post.announcement_name}</h5>
+              <p class="text-sm text-gray-500">${new Date(post.creation).toLocaleString()}</p>
+            </div>
+          </div>
+          <p class="mt-2">${post.description}</p>
+          <div class="attachments-container">
+            <strong>Attachments:</strong>
+            ${renderAttachments(post.name)}
+          </div>
+        </div>
+      `;
+
+      container.appendChild(postEl);
+    });
+
+    renderPagination(total);
+  }
+
+  function renderPagination(totalPosts) {
+    const pages = Math.ceil(totalPosts / postsPerPage);
+    const pagination = document.getElementById("pagination-controls");
+    pagination.innerHTML = `
+      <button class="btn" onclick="prevPage()" ${currentPage === 1 ? 'disabled' : ''}><</button>
+      ${Array.from({ length: pages }, (_, i) => i + 1).map(page => `
+        <button class="btn ${page === currentPage ? 'active' : ''}" onclick="goToPage(${page})">${page}</button>
+      `).join('')}
+      <button class="btn" onclick="nextPage()" ${currentPage === pages ? 'disabled' : ''}>></button>
+    `;
+  }
+
+  function prevPage() {
+    if (currentPage > 1) {
+      currentPage--;
+      loadPosts();
+    }
+  }
+
+  function nextPage() {
+    currentPage++;
+    loadPosts();
+  }
+
+  function goToPage(page) {
+    currentPage = page;
+    loadPosts();
+  }
+
+  loadChannels();
+</script>
+{% endblock %}

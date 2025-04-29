@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60">
+  <!-- SKMEI Logo -->
+  <defs>
+    <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0056b3;" />
+      <stop offset="100%" style="stop-color:#007bff;" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background Shape -->
+  <rect x="5" y="10" width="230" height="40" rx="5" fill="white" stroke="url(#logo-gradient)" stroke-width="2" />
+  
+  <!-- SKMEI Text -->
+  <text x="22" y="38" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="url(#logo-gradient)">SKMEI</text>
+  
+  <!-- Decorative Watch Icon -->
+  <g transform="translate(140, 30) scale(0.8)">
+    <circle cx="30" cy="0" r="14" fill="white" stroke="url(#logo-gradient)" stroke-width="2" />
+    <circle cx="30" cy="0" r="12" fill="white" stroke="#e0e0e0" stroke-width="1" />
+    <line x1="30" y1="-8" x2="30" y2="0" stroke="url(#logo-gradient)" stroke-width="2" stroke-linecap="round" />
+    <line x1="30" y1="0" x2="36" y2="3" stroke="url(#logo-gradient)" stroke-width="2" stroke-linecap="round" />
+    <circle cx="30" cy="0" r="1.5" fill="url(#logo-gradient)" />
+  </g>
+  
+  <!-- Tagline -->
+  <text x="170" y="40" font-family="Arial, sans-serif" font-size="10" fill="#555555">WATCHES</text>
+</svg>

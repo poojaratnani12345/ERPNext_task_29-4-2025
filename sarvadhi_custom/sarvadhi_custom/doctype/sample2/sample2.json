@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-18 14:02:06.749295",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "place",
+  "testss"
+ ],
+ "fields": [
+  {
+   "fieldname": "place",
+   "fieldtype": "Link",
+   "label": "place",
+   "options": "DocType"
+  },
+  {
+   "fetch_from": "place.placed",
+   "fieldname": "testss",
+   "fieldtype": "Dynamic Link",
+   "label": "testss",
+   "options": "place"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [
+  {
+   "link_doctype": "sample",
+   "link_fieldname": "placed"
+  }
+ ],
+ "modified": "2025-04-18 15:24:37.456952",
+ "modified_by": "Administrator",
+ "module": "sarvadhi_custom",
+ "name": "sample2",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

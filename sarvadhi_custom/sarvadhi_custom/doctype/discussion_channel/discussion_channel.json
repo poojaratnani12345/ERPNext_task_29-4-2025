@@ -9,13 +9,16 @@
   "channel_name",
   "description",
   "role",
-  "members"
+  "members",
+  "role_users_mapping"
  ],
  "fields": [
   {
    "fieldname": "channel_name",
    "fieldtype": "Data",
-   "label": "Channel Name"
+   "in_list_view": 1,
+   "label": "Channel Name",
+   "reqd": 1
   },
   {
    "fieldname": "description",
@@ -33,11 +36,17 @@
    "fieldtype": "Table MultiSelect",
    "label": "Role",
    "options": "Members Role"
+  },
+  {
+   "fieldname": "role_users_mapping",
+   "fieldtype": "JSON",
+   "hidden": 1,
+   "label": "Role_users_mapping"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-04 11:11:15.092907",
+ "modified": "2025-04-23 11:28:22.460709",
  "modified_by": "Administrator",
  "module": "sarvadhi_custom",
  "name": "Discussion Channel",

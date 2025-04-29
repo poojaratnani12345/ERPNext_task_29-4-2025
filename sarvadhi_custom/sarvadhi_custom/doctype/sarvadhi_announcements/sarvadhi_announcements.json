@@ -9,7 +9,6 @@
   "section_break_ebza",
   "type_of_announcement",
   "announcement_name",
-  "subject",
   "description",
   "reactions",
   "published",
@@ -20,11 +19,6 @@
   {
    "fieldname": "section_break_ebza",
    "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "subject",
-   "fieldtype": "Data",
-   "label": "Subject"
   },
   {
    "fieldname": "description",
@@ -72,7 +66,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-04 12:31:13.860017",
+ "modified": "2025-04-08 17:27:01.169522",
  "modified_by": "Administrator",
  "module": "sarvadhi_custom",
  "name": "Sarvadhi Announcements",
@@ -88,6 +82,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Item Manager",
    "share": 1,
    "write": 1
   }

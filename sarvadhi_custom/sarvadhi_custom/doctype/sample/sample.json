@@ -1,0 +1,73 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-12 14:54:46.760756",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "iq",
+  "cgpa",
+  "placed",
+  "amended_from",
+  "test"
+ ],
+ "fields": [
+  {
+   "fieldname": "iq",
+   "fieldtype": "Int",
+   "label": "IQ"
+  },
+  {
+   "fieldname": "cgpa",
+   "fieldtype": "Float",
+   "label": "CGPA"
+  },
+  {
+   "fieldname": "placed",
+   "fieldtype": "Data",
+   "label": "Placed"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "sample",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "test",
+   "fieldtype": "Link",
+   "label": "test",
+   "options": "sample"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-04-18 14:40:23.276533",
+ "modified_by": "Administrator",
+ "module": "sarvadhi_custom",
+ "name": "sample",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

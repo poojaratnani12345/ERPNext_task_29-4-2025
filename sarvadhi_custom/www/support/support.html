@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Support Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #eef2f6);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg,#8294a5, #1c2f41, #177ce7);
+            color: #fff;
+            padding: 15px 20px; /* Reduced padding for smaller screens */
+            text-align: center;
+            font-size: 16px; /* Reduced font size for smaller screens */
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px; /* Reduced padding for smaller screens */
+        }
+
+        .form-container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            padding: 20px; /* Reduced padding for smaller screens */
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 22px; /* Reduced font size for smaller screens */
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px; /* Reduced margin for smaller screens */
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #06101a;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px; /* Reduced padding for smaller screens */
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: #f8f9fa;
+            margin-bottom: 12px; /* Reduced margin for smaller screens */
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px; /* Reduced height for smaller screens */
+        }
+
+        input[type="file"] {
+            margin-bottom: 15px; /* Reduced margin for smaller screens */
+        }
+
+        button {
+            width: 100%;
+            padding: 10px; /* Reduced padding for smaller screens */
+            font-size: 14px; /* Reduced font size for smaller screens */
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(135deg,#8294a5, #1c2f41, #177ce7);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg,#177ce7, #1c2f41, #8294a5);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background: linear-gradient(135deg,#8294a5, #1c2f41, #177ce7);
+            color: #fff;
+            text-align: center;
+            padding: 10px 0; /* Reduced padding for smaller screens */
+            font-size: 12px; /* Reduced font size for smaller screens */
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+
+            .form-container {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            select,
+            textarea {
+                padding: 8px;
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
+
+            textarea {
+                min-height: 80px;
+            }
+
+            button {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            footer {
+                font-size: 10px;
+                padding: 8px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+
+            .form-container {
+                padding: 10px;
+            }
+
+            h2 {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            select,
+            textarea {
+                padding: 6px;
+                font-size: 10px;
+                margin-bottom: 8px;
+            }
+
+            textarea {
+                min-height: 60px;
+            }
+
+            button {
+                padding: 6px;
+                font-size: 10px;
+            }
+
+            footer {
+                font-size: 8px;
+                padding: 6px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Support Ticket Portal
+    </header>
+
+    <main>
+        <div class="form-container">
+            <h2>Support Ticket Form</h2>
+            <form id="contact-form" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ frappe.session.csrf_token }}">
+
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" name="first-name" placeholder="Enter your first name" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+                <label for="issue_type">Issue Type</label>
+                <select id="issue_type" name="issue_type" required>
+                    <option value="" disabled selected>Loading issue types...</option>
+                </select>
+
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" placeholder="Enter the subject" required>
+
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Describe your issue in detail"></textarea>
+
+                <label for="attachments">Attachments</label>
+                <input type="file" id="attachments" name="attachments" multiple>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 Support Portal | <a href="#">Sarvadhi Solution Pvt Ltd</a>
+    </footer>
+
+    <script>
+        let selectedFiles = [];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const issueTypeSelect = document.getElementById("issue_type");
+            fetch('/api/method/sarvadhi_custom.api.support.get_issue_types')
+                .then(res => res.json())
+                .then(data => {
+                    const types = data.message || [];
+                    issueTypeSelect.innerHTML = "";
+
+                    if (types.length === 0) {
+                        issueTypeSelect.innerHTML = '<option value="" disabled>No issue types available</option>';
+                        return;
+                    }
+
+                    types.forEach(type => {
+                        const option = document.createElement("option");
+                        option.value = type.name;
+                        option.textContent = type.name;
+                        issueTypeSelect.appendChild(option);
+                    });
+                })
+                .catch(() => {
+                    issueTypeSelect.innerHTML = '<option value="" disabled>Error loading issue types</option>';
+                });
+
+            document.getElementById("attachments").addEventListener("change", (e) => {
+                const files = Array.from(e.target.files);
+                files.forEach(file => {
+                    if (!selectedFiles.some(f => f.name === file.name)) {
+                        selectedFiles.push(file);
+                    }
+                });
+                console.log("Selected Files:", selectedFiles);
+            });
+        });
+
+        document.getElementById("contact-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const csrfToken = getCSRFToken();
+
+            formData.append("_csrf_token", csrfToken);
+            selectedFiles.forEach((file, idx) => {
+                formData.append(`attachments_${idx}`, file);
+            });
+
+            fetch('/api/method/sarvadhi_custom.api.support.create_issue', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => {
+                if (res.status === 429) {
+                    return res.json().then(data => {
+                        throw new Error(data.error || "Rate limit exceeded");
+                    });
+                }
+                if (!res.ok) {
+                    return res.json().then(data => {
+                        throw new Error(data.error || "Submission failed");
+                    });
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (data.message) {
+                    alert("Issue submitted successfully!");
+                    form.reset();
+                    selectedFiles = [];
+                } else {
+                    alert(data.error || "Submission failed. Try again.");
+                }
+            })
+            .catch(err => {
+                alert(err.message || "An error occurred. Please try again.");
+                console.error(err);
+            });
+        });
+
+        function getCSRFToken() {
+            const meta = document.querySelector('meta[name="csrf-token"]');
+            return meta?.content || "";
+        }
+    </script>
+</body>
+</html>

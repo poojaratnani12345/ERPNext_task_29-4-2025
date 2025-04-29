@@ -1,0 +1,33 @@
+{
+ "cards": [],
+ "chart_options": "",
+ "charts": [
+  {
+   "width": "Half"
+  },
+  {
+   "chart": "Leads by Status",
+   "width": "Half"
+  },
+  {
+   "chart": "Interactions by Type",
+   "width": "Half"
+  },
+  {
+   "chart": "Upcoming Follow-ups",
+   "width": "Half"
+  }
+ ],
+ "creation": "2025-04-29 09:26:40.589681",
+ "dashboard_name": "Sales Dashboard",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2025-04-29 09:34:36.043270",
+ "modified_by": "Administrator",
+ "module": "sarvadhi_custom",
+ "name": "Sales Dashboard",
+ "owner": "Administrator"
+}

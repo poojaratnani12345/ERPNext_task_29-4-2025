@@ -1,0 +1,45 @@
+{% extends "templates/web.html" %}
+{% block page_content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Main content -->
+        <div class="col-md-9 bg-light p-4 main-content">
+            <div>
+                {% if window.self !== window.top %}
+                    <h5 class="header iframe-header">Issue</h5>
+                {% else %}
+                    <h5 class="header">Issue</h5>
+                {% endif %}
+                <div id="main-container">
+                    <div id="post-list" style="height: 10px;">
+                        <!-- Posts will be dynamically loaded here -->
+                    </div>
+                </div>
+                <div id="pagination-controls" class="d-flex justify-content-center mt-4">
+                    <!-- Pagination buttons will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    // Check if the page is loaded inside an iframe
+    if (window.self !== window.top) {
+        // Add a class to the header when loaded in an iframe
+        const header = document.querySelector(".header");
+        if (header) {
+            header.classList.add("iframe-header");
+        }
+    }
+</script>
+{% endblock %}
+{% block style %}
+<style>
+    /* Hide the header in the iframe */
+    .iframe-header {
+        display: none;
+    }
+</style>
+{% endblock %}

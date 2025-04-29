@@ -1,0 +1,86 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{town_hall_event}-{email}-{###}",
+ "creation": "2025-04-29 10:21:25.547274",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "town_hall_event",
+  "first_name",
+  "last_name",
+  "full_name",
+  "status",
+  "column_break_jcdv",
+  "email",
+  "phone"
+ ],
+ "fields": [
+  {
+   "fieldname": "town_hall_event",
+   "fieldtype": "Link",
+   "label": "Town Hall Event",
+   "options": "Town Hall Event"
+  },
+  {
+   "fieldname": "first_name",
+   "fieldtype": "Data",
+   "label": "First Name"
+  },
+  {
+   "fieldname": "last_name",
+   "fieldtype": "Data",
+   "label": "Last Name"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Phone",
+   "label": "Phone"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nConfirmed"
+  },
+  {
+   "fieldname": "column_break_jcdv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "label": "Full Name"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-04-29 10:40:03.162678",
+ "modified_by": "Administrator",
+ "module": "sarvadhi_custom",
+ "name": "Town Hall Event Registration",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
